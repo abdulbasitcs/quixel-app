@@ -21,18 +21,24 @@ angular.module('home', []).
     };
 
     function getUser() {
-      $http({
-        method : "GET",
-        url : "http://quixelsso-staging.us-west-2.elasticbeanstalk.com/api/v1/users/" + Data.getEmail(),
-        headers: {
-          "Authorization": Data.getToken()
-        }
-        }).then(function mySucces(response) {
-          $scope.etag = response.headers().etag
-          $scope.name = response.data.name;
-        }, function myError(response) {
-          $scope.error = response.data.message;
-      });
+      if(Data.getToken()) {
+        $http({
+          method : "GET",
+          url : "http://quixelsso-staging.us-west-2.elasticbeanstalk.com/api/v1/users/" + Data.getEmail(),
+          headers: {
+            "Authorization": Data.getToken()
+          }
+          }).then(function mySucces(response) {
+            $scope.etag = response.headers().etag
+            $scope.name = response.data.name;
+          }, function myError(response) {
+            if(response.data.statusCode == 401)
+              $location.path('/login')
+            $scope.error = response.data.message;
+        });
+      } else {
+        $location.path('/login');
+      }
     }
     
     function postCall(path, value) {
@@ -60,6 +66,7 @@ angular.module('home', []).
           "Authorization": Data.getToken()
         }
         }).then(function mySucces(response) {
+          Data.setToken(null)
           $location.path('/login')
         }, function myError(response) {
           $scope.error = response.data.message;

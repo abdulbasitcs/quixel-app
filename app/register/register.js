@@ -2,7 +2,7 @@
 
 angular.
   module('register', []).
-  controller('RegisterController', ['$scope', '$http', function($scope, $http) {
+  controller('RegisterController', ['$scope', '$http', '$location', function($scope, $http, $location) {
   $scope.registration = function() {
     $http({
       method : "POST",
@@ -14,9 +14,8 @@ angular.
         "scope": ["neebz"]
       }
     }).then(function mySucces(response) {
-      console.log(response.data)
+        $location.path('/login')
     }, function myError(response) {
-      console.log(response.data)
       $scope.error=response.data.message;
     });
   };
