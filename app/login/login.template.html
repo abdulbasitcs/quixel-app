@@ -1,0 +1,26 @@
+<div ng-controller="LoginController">
+  <div class="row">
+    <div class="col-md-offset-4 col-md-4 border">
+      <div class="align-center" >Sign in with your Quixel account</div>
+        <form name="form" ng-submit="signin()" role="form">
+            <div class="form-group">
+                <label for="email">EMAIL ADDRESS</label>
+                <input type="email" class="form-control" ng-model="email" required ng-focus="error=null"/>
+            </div>
+            <div class="form-group">
+                <label for="password">PASSWORD</label>
+                <input type="password" class="form-control" ng-model="password" required ng-focus="error=null"/>
+            </div>
+            <div class="form-group">
+                <div ng-if="error" class="alert alert-danger">
+                  <strong>Error! </strong>{{error}}
+                </div>
+            </div>
+            <div class="form-actions align-center">
+                <button type="submit" class="btn btn-success">Login</button>
+                <a href="#!/register" class="btn btn-link">Register</a>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
